@@ -10,7 +10,11 @@ defmodule CardsTest do
     assert is_list state[:deck]
   end
 
-  test "shuffle deck", state do
+  test "create deck creates 52 cards", state do
+    assert length(state[:deck]) == 52
+  end
+
+  test "shuffle deck returns a list", state do
     assert is_list Cards.shuffle(state[:deck])
   end
 

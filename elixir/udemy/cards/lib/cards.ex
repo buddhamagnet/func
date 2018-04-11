@@ -58,6 +58,17 @@ defmodule Cards do
     create_deck() |> shuffle() |> deal(size)
   end
 
+  @doc """
+    Indicates whether a given card is
+    contained within the pack.
+
+  ## Examples
+
+      iex> deck = Cards.create_deck
+      iex> Cards.contains?(deck, "Ace of Spades")
+      true
+  """
+
   def contains?(deck, card) do
     Enum.member?(deck, card)
   end
