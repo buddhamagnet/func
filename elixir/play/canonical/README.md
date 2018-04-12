@@ -1,21 +1,9 @@
-# Canonical
+### CANONICAL
 
-**TODO: Add description**
-
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `canonical` to your list of dependencies in `mix.exs`:
+Port of a set of functions used to generate
+unique IDs for resources in the Economist
+Content Platform (originally in Go)
 
 ```elixir
-def deps do
-  [
-    {:canonical, "~> 0.1.0"}
-  ]
-end
+iex > Canonical.id("economist/node/12345")
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/canonical](https://hexdocs.pm/canonical).
-
