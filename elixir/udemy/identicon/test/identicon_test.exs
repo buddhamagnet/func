@@ -18,10 +18,31 @@ defmodule IdenticonTest do
 
   test "pick colour" do
     image = %Identicon.Image{hex: ["red", "green", "blue", "azure"]}
+    assert image.colours = {"red", "green", "blue"}
+  end
 
-    assert Identicon.pick_colour(image) == %Identicon.Image{
-             colours: {"red", "green", "blue"},
-             hex: ["red", "green", "blue", "azure"]
+  test "mirror_row" do
+    assert Identicon.mirror_row([1, 2, 3]) == [1, 2, 3, 2, 1]
+  end
+
+  test "build_grid" do
+    image = %Identicon.Image{colours: {179, 244, 247}, hex: [1, 2, 3, 4, 5, 6]}
+
+    assert Identicon.build_grid(image) == %Identicon.Image{
+             colours: {179, 244, 247},
+             grid: [
+               {1, 0},
+               {2, 1},
+               {3, 2},
+               {2, 3},
+               {1, 4},
+               {4, 5},
+               {5, 6},
+               {6, 7},
+               {5, 8},
+               {4, 9}
+             ],
+             hex: [1, 2, 3, 4, 5, 6]
            }
   end
 end

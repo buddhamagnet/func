@@ -2,7 +2,7 @@ defmodule Identicon do
   @moduledoc """
   Documentation for the Identicon module.
   """
-  
+
   @doc """
   The main function is responsible for taking
   a string ```input``` and converting it into
@@ -14,6 +14,7 @@ defmodule Identicon do
     |> hash
     |> to_image
     |> pick_colour
+    |> build_grid
   end
 
   @doc """
@@ -26,7 +27,7 @@ defmodule Identicon do
   end
 
   @doc """
-  Given a hashed value, returns a struct with
+  Given a hashed value, returns an Identicon.Image with
   a hex property - a list of numbers based on
   the hash bytes.
   """
@@ -41,5 +42,29 @@ defmodule Identicon do
   """
   def pick_colour(%Identicon.Image{hex: [r, g, b | _tail]} = image) do
     %Identicon.Image{image | colours: {r, g, b}}
+  end
+
+  @doc """
+    Given an Identicon.Image, chunks the hex list into
+    sets of three and creates a list of mirrored rows.
+  """
+  def build_grid(%Identicon.Image{hex: hex} = image) do
+    grid =
+      hex
+      |> Enum.chunk(3)
+      |> Enum.map(&mirror_row/1)
+      |> List.flatten()
+      |> Enum.with_index()
+
+    %Identicon.Image{image | grid: grid}
+  end
+
+  @doc """
+    Given a list of at least 2 elements, returns a
+    mirrored list with the first two elements appended
+    in reverse order.
+  """
+  def mirror_row([first, second | _tail] = row) do
+    row ++ [second, first]
   end
 end
