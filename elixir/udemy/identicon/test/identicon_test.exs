@@ -2,7 +2,7 @@ defmodule IdenticonTest do
   use ExUnit.Case
   doctest Identicon
 
-  test "hash to image", state do
+  test "hash to image" do
     image = Identicon.to_image("decimate")
     assert image.hex == [179, 244, 247, 32, 65, 113, 252, 85, 250, 49, 86, 40, 108, 199, 135, 17]
   end
@@ -45,9 +45,9 @@ defmodule IdenticonTest do
     }
 
     assert Identicon.filter_odd(image) === %Identicon.Image{
-      colours: {179, 244, 247},
-      hex: [1, 2, 3, 4, 5, 6],
-      grid: [{2, 1}, {4, 3}]
-    }
+             colours: {179, 244, 247},
+             hex: [1, 2, 3, 4, 5, 6],
+             grid: [{2, 1}, {4, 3}]
+           }
   end
 end

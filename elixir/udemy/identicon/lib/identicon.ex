@@ -15,6 +15,7 @@ defmodule Identicon do
     |> pick_colour
     |> build_grid
     |> filter_odd
+    |> build_pixel_map
   end
 
   @doc """
@@ -23,8 +24,9 @@ defmodule Identicon do
   the hashed value of the strings.
   """
   def to_image(str) do
-    hex = :crypto.hash(:md5, str)
-    |> :binary.bin_to_list
+    hex =
+      :crypto.hash(:md5, str)
+      |> :binary.bin_to_list()
 
     %Identicon.Image{hex: hex}
   end
@@ -53,11 +55,22 @@ defmodule Identicon do
     %Identicon.Image{image | grid: grid}
   end
 
+  @doc """
+    Given an Identicon.Image with a grid, returns
+    an Identicon.Image with a grid with the odd
+    numbered squares filtered out.
+  """
   def filter_odd(%Identicon.Image{grid: grid} = image) do
-    grid = Enum.filter grid, fn({code, _index}) ->
-      rem(code, 2) == 0
-    end
+    grid =
+      Enum.filter(grid, fn {code, _index} ->
+        rem(code, 2) == 0
+      end)
+
     %Identicon.Image{image | grid: grid}
+  end
+
+  def build_pixel_map(%Identicon.Image{grid: grid} = image) do
+    
   end
 
   @doc """
