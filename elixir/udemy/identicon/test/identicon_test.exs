@@ -17,8 +17,8 @@ defmodule IdenticonTest do
   end
 
   test "pick colour" do
-    image = %Identicon.Image{hex: ["red", "green", "blue", "azure"]}
-    assert image.colours = {"red", "green", "blue"}
+    image = Identicon.pick_colour(%Identicon.Image{hex: ["red", "green", "blue", "azure"]})
+    assert image.colours == {"red", "green", "blue"}
   end
 
   test "mirror_row" do
@@ -44,5 +44,19 @@ defmodule IdenticonTest do
              ],
              hex: [1, 2, 3, 4, 5, 6]
            }
+  end
+
+  test "filter odd numbers" do
+    image = %Identicon.Image{
+      colours: {179, 244, 247},
+      hex: [1, 2, 3, 4, 5, 6],
+      grid: [{1, 0}, {2, 1}, {3, 2}, {4, 3}, {5, 4}]
+    }
+
+    assert Identicon.filter_odd(image) === %Identicon.Image{
+      colours: {179, 244, 247},
+      hex: [1, 2, 3, 4, 5, 6],
+      grid: [{2, 1}, {4, 3}]
+    }
   end
 end
