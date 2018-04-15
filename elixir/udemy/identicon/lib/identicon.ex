@@ -11,7 +11,6 @@ defmodule Identicon do
   """
   def main(input) do
     input
-    |> hash
     |> to_image
     |> pick_colour
     |> build_grid
@@ -19,21 +18,15 @@ defmodule Identicon do
   end
 
   @doc """
-  Given a `String`, returns a raw
-  MD5 hash of that string, via the `:crypto` Erlang
-  package.
-  """
-  def hash(str) do
-    :crypto.hash(:md5, str)
-  end
-
-  @doc """
-  Given a hashed value, returns an Identicon.Image with
+  Given a string, returns an Identicon.Image with
   a hex property - a list of numbers based on
-  the hash bytes.
+  the hashed value of the strings.
   """
-  def to_image(hash) do
-    %Identicon.Image{hex: :binary.bin_to_list(hash)}
+  def to_image(str) do
+    hex = :crypto.hash(:md5, str)
+    |> :binary.bin_to_list
+
+    %Identicon.Image{hex: hex}
   end
 
   @doc """
