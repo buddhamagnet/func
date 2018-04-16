@@ -50,4 +50,18 @@ defmodule IdenticonTest do
              grid: [{2, 1}, {4, 3}]
            }
   end
+
+  test "build_pixel_map" do
+    image = %Identicon.Image{
+      colours: {179, 244, 247},
+      hex: [1, 2, 3, 4, 5, 6],
+      grid: [{2, 1}, {4, 3}]
+    }
+
+    assert Identicon.filter_odd(image) === %Identicon.Image{
+             colours: {179, 244, 247},
+             hex: [1, 2, 3, 4, 5, 6],
+             grid: [{2, 1}, {4, 3}]
+           }
+  end
 end
