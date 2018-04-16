@@ -16,6 +16,8 @@ defmodule Identicon do
     |> build_grid
     |> filter_odd
     |> build_pixel_map
+    |> draw_image
+    |> save_image(input)
   end
 
   @doc """
@@ -37,7 +39,7 @@ defmodule Identicon do
   and green.
   """
   def pick_colour(%Identicon.Image{hex: [r, g, b | _tail]} = image) do
-    %Identicon.Image{image | colours: {r, g, b}}
+    %Identicon.Image{image | colour: {r, g, b}}
   end
 
   @doc """
@@ -69,15 +71,40 @@ defmodule Identicon do
     %Identicon.Image{image | grid: grid}
   end
 
+  @doc """
+    Given an Identicon.Image, builds a pixel map from the
+    grid and returns a new image with a pixel_map key.
+  """
   def build_pixel_map(%Identicon.Image{grid: grid} = image) do
-    pixel_map = Enum.map grid, fn {_code, index} ->
-      x = rem(index, 5) * 50
-      y = div(index, 5) * 50
-      top_left = {x, y}
-      bottom_right = {x + 50, y + 50}
-      {top_left, bottom_right}
-    end
+    pixel_map =
+      Enum.map(grid, fn {_code, index} ->
+        x = rem(index, 5) * 50
+        y = div(index, 5) * 50
+        top_left = {x, y}
+        bottom_right = {x + 50, y + 50}
+        {top_left, bottom_right}
+      end)
+
     %Identicon.Image{image | pixel_map: pixel_map}
+  end
+
+  @doc """
+    Given an Identicon.Image, uses the Erlang EGD
+    library to draw and fill and image using the
+    Identicon.Image colours and pixel_map keys and
+    renders the image.
+  """
+  def draw_image(%Identicon.Image{colour: colour, pixel_map: pixel_map}) do
+    image = :egd.create(250, 250)
+    fill = :egd.color(colour)
+    Enum.each pixel_map, fn({start, stop}) ->
+      :egd.filledRectangle(image, start, stop, fill)
+    end
+    :egd.render(image)
+  end
+
+  def save_image(image, filename) do
+    File.write("#{filename}.png", image)    
   end
 
   @doc """
