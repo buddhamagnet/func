@@ -1,0 +1,4 @@
+<div class="jumbotron">
+  <h2>TOPICS!</h2>
+  <%= Enum.count @topics %>
+</div>
