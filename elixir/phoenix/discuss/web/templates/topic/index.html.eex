@@ -1,4 +1,6 @@
 <div class="jumbotron">
-  <h2>TOPICS!</h2>
-  <%= Enum.count @topics %>
+  <h2>TOPICS</h2>
+  <%= for topic <- @topics do %>
+    <h3><%= topic.title %></h3>
+  <%= end %>
 </div>
