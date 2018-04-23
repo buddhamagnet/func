@@ -14,12 +14,12 @@ defmodule Discuss.Router do
   end
 
   scope "/", Discuss do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
 
     get "/", TopicController, :index
-    get "/topics", TopicController, :index
     get "/topics/new", TopicController, :new
-    
+    get "/topics/:id/edit", TopicController, :edit  
+    put "/topics/:id", TopicController, :update
     post "/topics", TopicController, :create
   end
 
