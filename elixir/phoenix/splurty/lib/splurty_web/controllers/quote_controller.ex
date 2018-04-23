@@ -17,7 +17,7 @@ defmodule SplurtyWeb.QuoteController do
    def create(conn, %{"quote" => quote}) do
     changeset = Quote.changeset(%Quote{}, quote)
     case Repo.insert(changeset) do
-      {:ok, topic} ->
+      {:ok, quote} ->
         render conn, "index.html"
       {:error, changeset} ->
         render conn, "new.html", changeset: changeset
