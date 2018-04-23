@@ -2,8 +2,10 @@
   <ul class="collection">
     <%= for topic <- @topics do %>
       <li class="collection-item">
-        <%= link topic.title, to: topic_path(@conn, :edit, topic) %>
-
+        <%= topic.title %>
+        <div class="right">
+          <%= link "edit", to: topic_path(@conn, :edit, topic) %>
+        </div>
       </li>
     <%= end %>
   </ul>
