@@ -17,14 +17,7 @@ defmodule Discuss.Router do
     pipe_through :browser
 
     get "/", TopicController, :index
-    get "/topics/new", TopicController, :new
-    get "/topics/:id/edit", TopicController, :edit  
-    put "/topics/:id", TopicController, :update
-    post "/topics", TopicController, :create
-  end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Discuss do
-  #   pipe_through :api
-  # end
+    resources "/topics", TopicController, except: [:index]
+  end
 end
