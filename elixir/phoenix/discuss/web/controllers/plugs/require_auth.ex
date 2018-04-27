@@ -1,0 +1,23 @@
+defmodule Discuss.Plugs.RequireAuth do
+  import Plug.Conn
+  import Phoenix.Controller
+
+  alias Discuss.Router.Helpers
+
+
+
+  def init(_params) do
+  end
+
+  def call(conn, _params) do
+    if conn.assigns[:user] do
+      IO.puts "BOOM"
+      conn
+    else
+      conn
+      |> put_flash(:error, "403 Forbidden")
+      |> redirect(to: Helpers.topic_path(conn, :index))
+      |> halt()
+    end
+  end
+end
