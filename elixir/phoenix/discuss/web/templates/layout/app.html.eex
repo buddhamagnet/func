@@ -21,6 +21,13 @@
         <a href="/topics" class="brand-logo">
           Discussions
         </a>
+        <ul class="right">
+          <%= if @conn.assigns[:user] do %>
+            <li><%= link "sign out", to: auth_path(@conn, :sign_out) %></li>
+          <% else %>
+            <li><%= link "sign in", to: auth_path(@conn, :request, "github") %></li>
+          <% end %>
+        </ul>
       </div>
     </nav>
     <div class="container">
