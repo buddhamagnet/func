@@ -26,7 +26,7 @@ defmodule Discuss.TopicController do
   end
 
   def show(conn, %{"id" => topic_id}) do
-    topic = Repo.get(Topic, topic_id)
+    topic = Repo.get!(Topic, topic_id)
     render(conn, "show.html", topic: topic)
   end
 
