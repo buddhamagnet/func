@@ -1,6 +1,6 @@
 <h4>TOPIC <%= @topic.id %></h4>
   <ul class="collection">
       <li class="collection-item">
-        <%= @topic.title %>
+        <%= @topic.title %><button class="right">ping</button>
       </li>
   </ul>
