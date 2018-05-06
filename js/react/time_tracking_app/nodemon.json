@@ -1,0 +1,13 @@
+{
+  "verbose": true,
+  "ignore": ["tests/"],
+  "ignoreRoot": [".git"],
+  "watch": [
+    "public/app.js",
+    "public/index.html",
+    "public/helpers.js",
+    "public/client.js",
+    "test/"
+  ],
+  "ext": "js,es6,css"
+}
