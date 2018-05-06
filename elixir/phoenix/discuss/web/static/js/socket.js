@@ -1,18 +1,15 @@
 import {Socket} from "phoenix"
 
-let socket = new Socket("/socket", {params: {token: window.userToken}})
+const socket = new Socket("/socket", {params: {token: window.userToken}})
 
 socket.connect()
 
-let channel = socket.channel("comments:1", {})
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+const createSocket = (topicID) => {
+  const channelID = `comments:${ topicID }`;
+  const channel = socket.channel(channelID, {})
+  channel.join()
+  .receive("ok", resp => { console.log(`${ channelID } joined`, resp) })
+  .receive("error", resp => { console.log(`Unable to join ${ channelID }`, resp) })
+}
 
-document.querySelector('button').addEventListener('click', function() {
-  channel.push('comment:hello', { hi: 'there'})
-    .receive("ok", resp => { console.log("Pushed successfully", resp) })
-
-});
-
-export default socket
+window.createSocket = createSocket;
