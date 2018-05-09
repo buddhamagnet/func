@@ -5,8 +5,6 @@ import YTSearch from 'youtube-api-search';
 import SearchBar from './search_bar';
 import { VideoList, VideoDetail } from './videos';
 
-const YTKey = 'AIzaSyB6iXh3MeXcQ8nzmj_K6WucDA6WPLXk998';
-
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +12,7 @@ export default class App extends Component {
       videos: [],
       selectedVideo: null
     };
-    YTSearch({key: YTKey, term: 'react js'}, videos => {
+    YTSearch({key: process.env.API_KEY, term: 'react js'}, videos => {
       this.setState(
         {
           videos,
@@ -29,7 +27,7 @@ export default class App extends Component {
         <SearchBar />
         <VideoDetail video={this.state.selectedVideo} />
         <VideoList
-          onVideoSelect={selectedVideo => this.setState({selectedVideo})}
+          onVideoSelect={selectedVideo => this.setState({selected})}
           videos={this.state.videos}/>
       </div>
     );

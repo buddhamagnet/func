@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 module.exports = {
   entry: ['./src/index.js'],
   output: {
@@ -19,6 +21,13 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'API_KEY': JSON.stringify(process.env.YT_KEY)
+      }
+    }),
+  ],
   devServer: {
     historyApiFallback: true,
     contentBase: './',
