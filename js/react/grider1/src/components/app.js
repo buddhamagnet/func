@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import _ from 'lodash';
 import YTSearch from 'youtube-api-search';
 
 import SearchBar from './search_bar';
@@ -25,10 +26,12 @@ export default class App extends Component {
     });
   }
   render() {
+    // Throttle the API calls to prevent UI lag.
+    const videoSearch = _.debounce(term => { this.videoSearch(term) }, 300);
     return(
       <div>
         <SearchBar
-          videoSearch={term => this.videoSearch(term)} />
+          videoSearch={videoSearch} />
         <VideoDetail video={this.state.selectedVideo} />
         <VideoList
           onVideoSelect={selectedVideo => this.setState({selectedVideo})}
