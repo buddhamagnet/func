@@ -12,7 +12,10 @@ export default class App extends Component {
       videos: [],
       selectedVideo: null
     };
-    YTSearch({key: process.env.API_KEY, term: 'react js'}, videos => {
+    this.videoSearch();
+  }
+  videoSearch(term = 'grider udemy') {
+    YTSearch({key: process.env.API_KEY, term}, videos => {
       this.setState(
         {
           videos,
@@ -24,11 +27,12 @@ export default class App extends Component {
   render() {
     return(
       <div>
-        <SearchBar />
+        <SearchBar
+          videoSearch={term => this.videoSearch(term)} />
         <VideoDetail video={this.state.selectedVideo} />
         <VideoList
-          onVideoSelect={selectedVideo => this.setState({selected})}
-          videos={this.state.videos}/>
+          onVideoSelect={selectedVideo => this.setState({selectedVideo})}
+          videos={this.state.videos} />
       </div>
     );
   }
