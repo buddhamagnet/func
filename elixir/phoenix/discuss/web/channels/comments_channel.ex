@@ -7,11 +7,12 @@ defmodule Discuss.CommentsChannel do
     id = String.to_integer(id)
 
     topic =
-      Repo.get(Topic, id)
+      Topic
+      |> Repo.get(id)
       |> Repo.preload(:comments)
 
     IO.inspect(topic)
-    {:ok, %{}, assign(socket, :topic, topic)}
+    {:ok, %{comments: topic.comments}, assign(socket, :topic, topic)}
   end
 
   def handle_in(name, %{"content" => content}, socket) do
