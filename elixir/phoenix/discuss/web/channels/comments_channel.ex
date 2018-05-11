@@ -11,7 +11,6 @@ defmodule Discuss.CommentsChannel do
       |> Repo.get(id)
       |> Repo.preload(:comments)
 
-    IO.inspect(topic)
     {:ok, %{comments: topic.comments}, assign(socket, :topic, topic)}
   end
 

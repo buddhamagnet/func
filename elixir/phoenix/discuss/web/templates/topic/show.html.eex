@@ -3,6 +3,7 @@
   <textarea class="materialize-textarea"></textarea>
   <button class="btn">add comment</button>
 </div>
+<ul class="collection"></ul>
 
 
 
