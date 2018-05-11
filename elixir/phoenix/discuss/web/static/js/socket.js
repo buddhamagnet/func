@@ -10,6 +10,11 @@ const createSocket = (topicID) => {
   channel.join()
   .receive("ok", resp => { console.log(`joined channel ${ channelID }`, resp) })
   .receive("error", resp => { console.log(`Unable to join ${ channelID }`, resp) })
+
+  document.querySelector('button').addEventListener('click', () => {
+    const content = document.querySelector('textarea').value;
+    channel.push('comments:add', {content})
+  });
 }
 
 window.createSocket = createSocket;
