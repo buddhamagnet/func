@@ -11,7 +11,9 @@ const createSocket = (topicID) => {
   .receive("ok", resp => {
     renderComments(resp.comments);
   })
-  .receive("error", resp => { console.log(`Unable to join ${ channelID }`, resp) })
+  .receive("error", resp => { console.log(`Unable to join ${ channelID }`, resp) });
+
+  channel.on(`comments:${ topicID }:new`, renderComment);
 
   document.querySelector('button').addEventListener('click', () => {
     const content = document.querySelector('textarea').value;
@@ -19,9 +21,17 @@ const createSocket = (topicID) => {
   });
 }
 
+const commentTemplate = (comment) => {
+  return `<li class="collection-item">${comment.content}</li>`
+}
+
+const renderComment = (event) => {
+  document.querySelector(".collection").innerHTML += commentTemplate(event.comment);
+}
+
 const renderComments = (comments) => {
   const renderedComments = comments.map((comment) => {
-    return `<li class="collection-item">${comment.content}</li>`
+    return commentTemplate(comment);
   });
   document.querySelector(".collection").innerHTML = renderedComments.join('');
 };
