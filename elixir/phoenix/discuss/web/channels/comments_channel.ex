@@ -9,31 +9,29 @@ defmodule Discuss.CommentsChannel do
     topic =
       Topic
       |> Repo.get(id)
-      |> Repo.preload(:comments)
+      |> Repo.preload(comments: [:user])
+
+    IO.inspect(topic.comments)
 
     {:ok, %{comments: topic.comments}, assign(socket, :topic, topic)}
   end
 
   def handle_in(_name, %{"content" => content}, socket) do
-    changeset =
-      socket.assigns.topic
-      |> build_assoc(:comments)
-      |> Comment.changeset(%{content: content})
+    topic = socket.assigns.topic
+    user_id = socket.assigns.user_id
 
-    IO.inspect(socket.assigns)
+    changeset =
+      topic
+      |> build_assoc(:comments, user_id: user_id)
+      |> Comment.changeset(%{content: content})
 
     case Repo.insert(changeset) do
       {:ok, comment} ->
-        IO.puts("comments:#{socket.assigns.topic.id}:new")
         broadcast!(socket, "comments:#{socket.assigns.topic.id}:new", %{comment: comment})
         {:reply, :ok, socket}
 
       {:error, _reason} ->
-        IO.puts("ERROR")
         {:reply, {:error, %{errors: changeset}}, socket}
-
-      true ->
-        IO.puts("OTHER")
     end
   end
 end

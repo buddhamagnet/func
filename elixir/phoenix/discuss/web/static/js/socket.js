@@ -26,14 +26,17 @@ const getElement = (name) => document.querySelector(name)
 const commentsList = () => getElement(".collection")
 
 const commentTemplate = (comment) => {
-  return `<li class="collection-item">${comment.content}</li>`
+  return `<li class="collection-item">${comment.content} by <small>${ user(comment) }</small></li>`
 }
+
+const user = (comment) => comment.user && comment.user.email || 'anonymous';
 
 const renderComment = (event) => {
   commentsList().innerHTML += commentTemplate(event.comment);
 }
 
 const renderComments = (comments) => {
+  console.dir(comments);
   const renderedComments = comments.map((comment) => {
     return commentTemplate(comment);
   });
